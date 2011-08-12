@@ -12,26 +12,26 @@ class PPI_DataSource_Mongo {
             throw new PPI_Exception('Mongo extension is missing');
         }
 
-        $uri =  'mongodb://'
+        $dsn =  'mongodb://'
             .((isset($config['user'])) ?
                 $config['user'] . ((isset($config['pass'])) ? ':' . $config['pass'] : '') .'@'
                 : '')
             .((isset($config['host'])) ? $config['host'] : 'localhost')
             .((isset($config['port'])) ? ':' . $config['port'] : '');
 
-        if (empty($this->conn[$uri])) {
+        if (empty($this->conn[$dsn])) {
 
             if (empty($config['options'])) {
                 $config['options'] = array();
             }
 
-            $this->conn[$uri] = new Mongo($uri, $config['options']);
+            $this->conn[$dsn] = new Mongo($dsn, $config['options']);
         }
         
         if (!empty($config['database'])) {
-            return $this->conn[$uri]->selectDB($config['database']);
+            return $this->conn[$dsn]->selectDB($config['database']);
         } 
-        return $this->conn[$uri];
+        return $this->conn[$dsn];
     }
 
 }
